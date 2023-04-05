@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import {Button, 
   Table, 
@@ -12,17 +13,19 @@ import {Button,
   TextField
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { addTodo, deleteTodo } from '../../redux/todoSlice';
 
 const BasicForm = () => { 
-   const [todos, setTodos] = useState([]);
+  const todos = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
 
    const handleSubmit = (values, { resetForm }) => {
-    setTodos([...todos, values.todo]);
+    dispatch(addTodo(values.todo));
     resetForm();
    }
 
    const handleDelete = index => {
-    setTodos(todos.filter((_, i) => i !== index))
+    dispatch(deleteTodo(index));
    }
   
   return(
